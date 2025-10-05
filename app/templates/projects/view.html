@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">项目详情</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">项目ID:</div>
+                <div class="col-md-9">{{ project.id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">项目名称:</div>
+                <div class="col-md-9">{{ project.name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">项目描述:</div>
+                <div class="col-md-9">{{ project.description or '-' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">项目状态:</div>
+                <div class="col-md-9">
+                    {% if project.status == 'planning' %}
+                        <span class="badge bg-secondary">规划中</span>
+                    {% elif project.status == 'in_progress' %}
+                        <span class="badge bg-primary">进行中</span>
+                    {% elif project.status == 'completed' %}
+                        <span class="badge bg-success">已完成</span>
+                    {% elif project.status == 'on_hold' %}
+                        <span class="badge bg-warning">已暂停</span>
+                    {% elif project.status == 'cancelled' %}
+                        <span class="badge bg-danger">已取消</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">优先级:</div>
+                <div class="col-md-9">
+                    {% if project.priority == 'low' %}
+                        <span class="badge bg-info">低</span>
+                    {% elif project.priority == 'medium' %}
+                        <span class="badge bg-secondary">中</span>
+                    {% elif project.priority == 'high' %}
+                        <span class="badge bg-warning">高</span>
+                    {% elif project.priority == 'urgent' %}
+                        <span class="badge bg-danger">紧急</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">开始日期:</div>
+                <div class="col-md-9">{{ project.start_date }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">结束日期:</div>
+                <div class="col-md-9">{{ project.end_date or '-' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">预算:</div>
+                <div class="col-md-9">¥{{ project.budget or 0 }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">项目经理:</div>
+                <div class="col-md-9">{{ project.manager_name or '-' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">创建时间:</div>
+                <div class="col-md-9">{{ project.created_at }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">更新时间:</div>
+                <div class="col-md-9">{{ project.updated_at }}</div>
+            </div>
+            
+            <hr>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('projects.index') }}" class="btn btn-secondary">返回列表</a>
+                <div>
+                    <a href="{{ url_for('projects.edit', project_id=project.id) }}" class="btn btn-warning">编辑</a>
+                    <a href="{{ url_for('projects.tasks', project_id=project.id) }}" class="btn btn-info">任务管理</a>
+                    <a href="{{ url_for('projects.members', project_id=project.id) }}" class="btn btn-primary">成员管理</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

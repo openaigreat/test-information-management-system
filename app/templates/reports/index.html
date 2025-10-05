@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">报表管理</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">人员报表</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">考勤报表</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">薪资报表</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">任务报表</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">报表生成</h4>
+            <form method="post" action="{{ url_for('reports.generate') }}">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="report_type" class="form-label">报表类型</label>
+                        <select class="form-select" id="report_type" name="report_type" required>
+                            <option value="">请选择报表类型</option>
+                            <option value="人员统计">人员统计报表</option>
+                            <option value="考勤统计">考勤统计报表</option>
+                            <option value="薪资统计">薪资统计报表</option>
+                            <option value="任务统计">任务统计报表</option>
+                            <option value="知识库统计">知识库统计报表</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="report_format" class="form-label">报表格式</label>
+                        <select class="form-select" id="report_format" name="report_format">
+                            <option value="html">HTML</option>
+                            <option value="excel">Excel</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="start_date" class="form-label">开始日期</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="end_date" class="form-label">结束日期</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">生成报表</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">快速报表</h4>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">人员统计报表</h5>
+                            <p class="card-text">查看公司人员构成、部门分布等统计信息</p>
+                            <a href="{{ url_for('reports.personnel') }}" class="btn btn-primary">查看报表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">考勤统计报表</h5>
+                            <p class="card-text">查看员工出勤、缺勤、迟到等考勤统计信息</p>
+                            <a href="{{ url_for('reports.attendance') }}" class="btn btn-primary">查看报表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">薪资统计报表</h5>
+                            <p class="card-text">查看薪资分布、部门薪资对比等统计信息</p>
+                            <a href="{{ url_for('reports.salary') }}" class="btn btn-primary">查看报表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">任务统计报表</h5>
+                            <p class="card-text">查看任务完成情况、任务分布等统计信息</p>
+                            <a href="{{ url_for('reports.tasks') }}" class="btn btn-primary">查看报表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">知识库统计报表</h5>
+                            <p class="card-text">查看知识库文章数量、分类分布等统计信息</p>
+                            <a href="{{ url_for('reports.knowledge') }}" class="btn btn-primary">查看报表</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

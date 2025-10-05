@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">系统设置</h1>
+    
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">用户管理</h5>
+                    <p class="card-text">管理系统用户、角色和权限</p>
+                    <a href="{{ url_for('system.users') }}" class="btn btn-primary">用户管理</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">角色管理</h5>
+                    <p class="card-text">管理系统角色和权限分配</p>
+                    <a href="{{ url_for('system.roles') }}" class="btn btn-primary">角色管理</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">权限管理</h5>
+                    <p class="card-text">管理系统权限和访问控制</p>
+                    <a href="{{ url_for('system.permissions') }}" class="btn btn-primary">权限管理</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">部门管理</h5>
+                    <p class="card-text">管理系统部门和部门结构</p>
+                    <a href="{{ url_for('system.departments') }}" class="btn btn-primary">部门管理</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">职位管理</h5>
+                    <p class="card-text">管理系统职位和职位级别</p>
+                    <a href="{{ url_for('system.positions') }}" class="btn btn-primary">职位管理</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">菜单管理</h5>
+                    <p class="card-text">管理系统菜单和菜单结构</p>
+                    <a href="{{ url_for('system.menus') }}" class="btn btn-primary">菜单管理</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">系统设置</h5>
+                    <p class="card-text">配置系统参数和选项</p>
+                    <a href="{{ url_for('system.settings') }}" class="btn btn-primary">系统设置</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">系统日志</h5>
+                    <p class="card-text">查看系统操作日志</p>
+                    <a href="{{ url_for('system.logs') }}" class="btn btn-primary">系统日志</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">数据备份</h5>
+                    <p class="card-text">备份系统数据</p>
+                    <a href="{{ url_for('system.backup') }}" class="btn btn-primary">数据备份</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">数据恢复</h5>
+                    <p class="card-text">恢复系统数据</p>
+                    <a href="{{ url_for('system.restore') }}" class="btn btn-primary">数据恢复</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">个人资料</h5>
+                    <p class="card-text">查看和修改个人资料</p>
+                    <a href="{{ url_for('system.profile') }}" class="btn btn-primary">个人资料</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">修改密码</h5>
+                    <p class="card-text">修改登录密码</p>
+                    <a href="{{ url_for('system.change_password') }}" class="btn btn-primary">修改密码</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">系统信息</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>系统名称</th>
+                            <td>{{ system_settings.system_name or '信息管理系统' }}</td>
+                        </tr>
+                        <tr>
+                            <th>系统版本</th>
+                            <td>{{ system_settings.system_version or 'v1.0.0' }}</td>
+                        </tr>
+                        <tr>
+                            <th>公司名称</th>
+                            <td>{{ system_settings.company_name or '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>当前用户</th>
+                            <td>{{ current_user.username }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>服务器环境</th>
+                            <td>Linux</td>
+                        </tr>
+                        <tr>
+                            <th>Python版本</th>
+                            <td>3.9.0</td>
+                        </tr>
+                        <tr>
+                            <th>Flask版本</th>
+                            <td>2.0.1</td>
+                        </tr>
+                        <tr>
+                            <th>数据库</th>
+                            <td>SQLite</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

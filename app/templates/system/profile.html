@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">个人资料</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">基本信息</h5>
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">用户名</label>
+                            <input type="text" class="form-control" id="username" value="admin" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">邮箱</label>
+                            <input type="email" class="form-control" id="email" value="admin@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">姓名</label>
+                            <input type="text" class="form-control" id="fullName" value="系统管理员">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">电话</label>
+                            <input type="tel" class="form-control" id="phone" value="13800138000">
+                        </div>
+                        <div class="mb-3">
+                            <label for="department" class="form-label">部门</label>
+                            <input type="text" class="form-control" id="department" value="信息技术部">
+                        </div>
+                        <div class="mb-3">
+                            <label for="position" class="form-label">职位</label>
+                            <input type="text" class="form-control" id="position" value="系统管理员">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">保存基本信息</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">头像设置</h5>
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img src="/static/img/default-avatar.png" alt="用户头像" class="img-thumbnail mb-3" style="max-width: 150px;">
+                    <div>
+                        <button class="btn btn-sm btn-danger">删除头像</button>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <form>
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">上传新头像</label>
+                            <input type="file" class="form-control" id="avatar">
+                            <div class="form-text">支持JPG、PNG格式，建议尺寸200x200像素，文件大小不超过2MB</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">更新头像</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">个人简介</h5>
+            <form>
+                <div class="mb-3">
+                    <label for="bio" class="form-label">个人简介</label>
+                    <textarea class="form-control" id="bio" rows="4">负责系统的日常维护和管理，确保系统稳定运行。</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">保存个人简介</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">账户信息</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">用户ID</label>
+                        <input type="text" class="form-control" value="1" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">用户角色</label>
+                        <input type="text" class="form-control" value="超级管理员" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">注册时间</label>
+                        <input type="text" class="form-control" value="2023-01-01 00:00:00" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">最后登录时间</label>
+                        <input type="text" class="form-control" value="2023-10-04 15:30:22" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">通知设置</h5>
+            <form>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="emailNotification" checked>
+                        <label class="form-check-label" for="emailNotification">
+                            接收邮件通知
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="systemNotification" checked>
+                        <label class="form-check-label" for="systemNotification">
+                            接收系统通知
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="taskNotification" checked>
+                        <label class="form-check-label" for="taskNotification">
+                            接收任务通知
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">保存通知设置</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('system.index') }}" class="btn btn-secondary">返回系统设置</a>
+        <div>
+            <a href="{{ url_for('system.change_password') }}" class="btn btn-warning">修改密码</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

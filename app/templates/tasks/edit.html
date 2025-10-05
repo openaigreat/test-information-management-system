@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">编辑任务</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="title" class="form-label">任务标题 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ task.title }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">任务状态 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="todo" {% if task.status == 'todo' %}selected{% endif %}>待办</option>
+                            <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>进行中</option>
+                            <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>已完成</option>
+                            <option value="overdue" {% if task.status == 'overdue' %}selected{% endif %}>已逾期</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="priority" class="form-label">优先级 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="priority" name="priority" required>
+                            <option value="low" {% if task.priority == 'low' %}selected{% endif %}>低</option>
+                            <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>中</option>
+                            <option value="high" {% if task.priority == 'high' %}selected{% endif %}>高</option>
+                            <option value="urgent" {% if task.priority == 'urgent' %}selected{% endif %}>紧急</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="due_date" class="form-label">截止日期 <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date }}" required>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="assignee_id" class="form-label">指派给 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="assignee_id" name="assignee_id" required>
+                            <option value="0">请选择</option>
+                            <!-- 这里应该从数据库获取用户列表 -->
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="project_id" class="form-label">所属项目</label>
+                        <select class="form-select" id="project_id" name="project_id">
+                            <option value="0">无</option>
+                            <!-- 这里应该从数据库获取项目列表 -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">任务描述</label>
+                    <textarea class="form-control" id="description" name="description" rows="4">{{ task.description }}</textarea>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('tasks.index') }}" class="btn btn-secondary">返回</a>
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

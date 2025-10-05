@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">{{ category.name }} - 文章列表</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">分类信息</h5>
+            <p class="card-text">{{ category.description or '暂无描述' }}</p>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="badge bg-info">{{ articles|length }} 篇文章</span>
+                    {% if category.parent_name %}
+                    <span class="badge bg-secondary">父分类: {{ category.parent_name }}</span>
+                    {% endif %}
+                </div>
+                <div>
+                    <a href="{{ url_for('knowledge.index') }}" class="btn btn-sm btn-secondary">返回知识库</a>
+                    <a href="{{ url_for('knowledge.edit_category', category_id=category.id) }}" class="btn btn-sm btn-warning">编辑分类</a>
+                    <a href="{{ url_for('knowledge.add_article') }}" class="btn btn-sm btn-primary">添加文章</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if articles %}
+            <div class="list-group">
+                {% for article in articles %}
+                <a href="{{ url_for('knowledge.view_article', article_id=article.id) }}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ article.title }}</h6>
+                        <small>{{ article.created_at }}</small>
+                    </div>
+                    <div class="mb-1">
+                        {% if article.is_public == 'public' %}
+                        <span class="badge bg-success">公开</span>
+                        {% else %}
+                        <span class="badge bg-secondary">私有</span>
+                        {% endif %}
+                        {% if article.tags %}
+                        {% for tag in article.tags.split(',') %}
+                        <span class="badge bg-secondary">{{ tag.strip() }}</span>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <p class="mb-1 text-muted small">{{ article.summary or '暂无摘要' }}</p>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">此分类下暂无文章</p>
+                <a href="{{ url_for('knowledge.add_article') }}" class="btn btn-primary">添加第一篇文章</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

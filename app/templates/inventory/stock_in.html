@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">物品入库</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">物品名称:</div>
+                <div class="col-md-9">{{ item.name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">当前库存:</div>
+                <div class="col-md-9">{{ item.stock_quantity or 0 }} {{ item.unit }}</div>
+            </div>
+            
+            <hr>
+            
+            <form method="post">
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">入库数量</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                    <div class="form-text">请输入大于0的整数</div>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">入库日期</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="operator" class="form-label">操作人</label>
+                    <input type="text" class="form-control" id="operator" name="operator" value="{{ current_user.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="remark" class="form-label">备注</label>
+                    <textarea class="form-control" id="remark" name="remark" rows="3"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('inventory.stock') }}" class="btn btn-secondary">返回</a>
+                    <button type="submit" class="btn btn-success">确认入库</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

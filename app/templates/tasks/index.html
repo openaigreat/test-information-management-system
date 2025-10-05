@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">任务管理</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">总任务数</h5>
+                    <h2 class="card-text">{{ tasks|length }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">进行中</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">已完成</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">已逾期</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>任务列表</h4>
+        <div>
+            <a href="{{ url_for('tasks.my_tasks') }}" class="btn btn-info">我的任务</a>
+            <a href="{{ url_for('tasks.add') }}" class="btn btn-primary">添加任务</a>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if tasks %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>任务标题</th>
+                            <th>状态</th>
+                            <th>优先级</th>
+                            <th>负责人</th>
+                            <th>所属项目</th>
+                            <th>截止日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.id }}</td>
+                            <td>{{ task.title }}</td>
+                            <td>
+                                {% if task.status == 'todo' %}
+                                    <span class="badge bg-secondary">待办</span>
+                                {% elif task.status == 'in_progress' %}
+                                    <span class="badge bg-primary">进行中</span>
+                                {% elif task.status == 'completed' %}
+                                    <span class="badge bg-success">已完成</span>
+                                {% elif task.status == 'overdue' %}
+                                    <span class="badge bg-danger">已逾期</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if task.priority == 'low' %}
+                                    <span class="badge bg-info">低</span>
+                                {% elif task.priority == 'medium' %}
+                                    <span class="badge bg-secondary">中</span>
+                                {% elif task.priority == 'high' %}
+                                    <span class="badge bg-warning">高</span>
+                                {% elif task.priority == 'urgent' %}
+                                    <span class="badge bg-danger">紧急</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ task.assignee_name or '-' }}</td>
+                            <td>{{ task.project_name or '-' }}</td>
+                            <td>{{ task.due_date or '-' }}</td>
+                            <td>
+                                <a href="{{ url_for('tasks.view', task_id=task.id) }}" class="btn btn-sm btn-info">查看</a>
+                                <a href="{{ url_for('tasks.edit', task_id=task.id) }}" class="btn btn-sm btn-warning">编辑</a>
+                                <form method="post" action="{{ url_for('tasks.delete', task_id=task.id) }}" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除此任务吗？')">删除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">暂无任务数据</p>
+                <a href="{{ url_for('tasks.add') }}" class="btn btn-primary">添加第一个任务</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

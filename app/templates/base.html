@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - 信息管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/system.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">信息管理系统</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.index') }}">首页</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="personnelDropdown" role="button" data-bs-toggle="dropdown">
+                            人员管理
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('personnel.index') }}">人员信息</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('personnel.attendance') }}">考勤记录</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('personnel.salary') }}">薪资管理</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="customersDropdown" role="button" data-bs-toggle="dropdown">
+                            客户管理
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('customers.index') }}">客户信息</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('customers.contacts', customer_id=1) }}">联系人</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('customers.business', customer_id=1) }}">业务往来</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('customers.communication', customer_id=1) }}">沟通过程</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="financeDropdown" role="button" data-bs-toggle="dropdown">
+                            资金管理
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('finance.accounts') }}">账户管理</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('finance.transactions') }}">交易记录</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="inventoryDropdown" role="button" data-bs-toggle="dropdown">
+                            物品管理
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('inventory.index') }}">物品信息</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('inventory.purchase') }}">采购记录</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('inventory.receive') }}">领用记录</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('inventory.stock') }}">库存管理</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" role="button" data-bs-toggle="dropdown">
+                            项目管理
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('projects.index') }}">项目列表</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('projects.documents', project_id=1) }}">文档整理</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('projects.schedule', project_id=1) }}">进度节点</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('projects.accounting', project_id=1) }}">项目核算</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('projects.records', project_id=1) }}">过程记录</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tasks.index') }}">任务管理</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="knowledgeDropdown" role="button" data-bs-toggle="dropdown">
+                            知识库
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('reports.knowledge') }}">网盘</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('knowledge.manuals') }}">设备手册</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('knowledge.guides') }}">操作指导</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('knowledge.instructions') }}">说明书</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown">
+                            报表中心
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('reports.index') }}">报表首页</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reports.personnel') }}">人员统计</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reports.attendance') }}">考勤统计</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reports.salary') }}">薪资统计</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reports.tasks') }}">任务统计</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('reports.knowledge') }}">知识库统计</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="systemDropdown" role="button" data-bs-toggle="dropdown">
+                            系统设置
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('system.index') }}">系统首页</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.users') }}">用户管理</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.roles') }}">角色管理</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.permissions') }}">权限管理</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.settings') }}">系统设置</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.logs') }}">系统日志</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.backup') }}">数据备份</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.restore') }}">数据恢复</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.profile') }}">个人资料</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.change_password') }}">修改密码</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ current_user.name or current_user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ url_for('system.profile') }}">个人资料</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('system.change_password') }}">修改密码</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">退出登录</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.register') }}">注册</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/system.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">考勤统计报表</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">考勤统计概览</h4>
+            
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">总人数</h5>
+                            <h2 class="card-text">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">出勤率</h5>
+                            <h2 class="card-text">0%</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">迟到率</h5>
+                            <h2 class="card-text">0%</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">缺勤率</h5>
+                            <h2 class="card-text">0%</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">月度考勤趋势</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">部门考勤对比</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">部门考勤明细</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>部门名称</th>
+                                    <th>总人数</th>
+                                    <th>出勤人数</th>
+                                    <th>缺勤人数</th>
+                                    <th>迟到人数</th>
+                                    <th>出勤率</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>技术部</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>市场部</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>财务部</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">个人考勤异常记录</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>员工姓名</th>
+                                    <th>部门</th>
+                                    <th>日期</th>
+                                    <th>上班时间</th>
+                                    <th>下班时间</th>
+                                    <th>状态</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('reports.index') }}" class="btn btn-secondary">返回报表中心</a>
+                <div>
+                    <button class="btn btn-success">导出Excel</button>
+                    <button class="btn btn-danger">导出PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

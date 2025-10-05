@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">项目成员管理 - {{ project.name }}</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">总成员数</h5>
+                    <h2 class="card-text">{{ members|length }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">项目经理</h5>
+                    <h2 class="card-text">1</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">开发人员</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">测试人员</h5>
+                    <h2 class="card-text">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>成员列表</h4>
+        <div>
+            <a href="{{ url_for('projects.view', project_id=project.id) }}" class="btn btn-secondary">返回项目</a>
+            <a href="#" class="btn btn-primary">添加成员</a>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if members %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>职位</th>
+                            <th>角色</th>
+                            <th>加入日期</th>
+                            <th>联系方式</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members %}
+                        <tr>
+                            <td>{{ member.id }}</td>
+                            <td>{{ member.name }}</td>
+                            <td>{{ member.position or '-' }}</td>
+                            <td>
+                                {% if member.role == 'manager' %}
+                                    <span class="badge bg-primary">项目经理</span>
+                                {% elif member.role == 'developer' %}
+                                    <span class="badge bg-info">开发人员</span>
+                                {% elif member.role == 'tester' %}
+                                    <span class="badge bg-warning">测试人员</span>
+                                {% elif member.role == 'designer' %}
+                                    <span class="badge bg-success">设计师</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">其他</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ member.join_date or '-' }}</td>
+                            <td>{{ member.contact or '-' }}</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info">查看</a>
+                                <a href="#" class="btn btn-sm btn-warning">编辑</a>
+                                <form method="post" action="#" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('确定要移除此成员吗？')">移除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">暂无成员数据</p>
+                <a href="#" class="btn btn-primary">添加第一个成员</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

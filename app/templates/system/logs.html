@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">系统日志</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">日志筛选</h5>
+            <form>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="logType" class="form-label">日志类型</label>
+                            <select class="form-select" id="logType">
+                                <option value="all" selected>全部</option>
+                                <option value="login">登录日志</option>
+                                <option value="operation">操作日志</option>
+                                <option value="error">错误日志</option>
+                                <option value="system">系统日志</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="logLevel" class="form-label">日志级别</label>
+                            <select class="form-select" id="logLevel">
+                                <option value="all" selected>全部</option>
+                                <option value="info">信息</option>
+                                <option value="warning">警告</option>
+                                <option value="error">错误</option>
+                                <option value="critical">严重</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label">开始日期</label>
+                            <input type="date" class="form-control" id="startDate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">结束日期</label>
+                            <input type="date" class="form-control" id="endDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="user" class="form-label">用户</label>
+                            <input type="text" class="form-control" id="user" placeholder="输入用户名">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="ip" class="form-label">IP地址</label>
+                            <input type="text" class="form-control" id="ip" placeholder="输入IP地址">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">查询</button>
+                <button type="reset" class="btn btn-secondary">重置</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">日志列表</h5>
+                <div>
+                    <button class="btn btn-success me-2">导出日志</button>
+                    <button class="btn btn-danger">清空日志</button>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>时间</th>
+                            <th>类型</th>
+                            <th>级别</th>
+                            <th>用户</th>
+                            <th>IP地址</th>
+                            <th>操作</th>
+                            <th>详情</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>2023-10-04 15:30:22</td>
+                            <td><span class="badge bg-primary">登录日志</span></td>
+                            <td><span class="badge bg-info">信息</span></td>
+                            <td>admin</td>
+                            <td>192.168.1.100</td>
+                            <td>用户登录</td>
+                            <td>用户admin成功登录系统</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>2023-10-04 15:25:10</td>
+                            <td><span class="badge bg-warning">操作日志</span></td>
+                            <td><span class="badge bg-info">信息</span></td>
+                            <td>admin</td>
+                            <td>192.168.1.100</td>
+                            <td>添加用户</td>
+                            <td>添加了新用户test</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>2023-10-04 15:20:05</td>
+                            <td><span class="badge bg-danger">错误日志</span></td>
+                            <td><span class="badge bg-warning">警告</span></td>
+                            <td>system</td>
+                            <td>127.0.0.1</td>
+                            <td>数据库连接</td>
+                            <td>数据库连接超时，已重试3次</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>2023-10-04 15:15:33</td>
+                            <td><span class="badge bg-secondary">系统日志</span></td>
+                            <td><span class="badge bg-info">信息</span></td>
+                            <td>system</td>
+                            <td>127.0.0.1</td>
+                            <td>系统启动</td>
+                            <td>系统服务已成功启动</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>2023-10-04 15:10:18</td>
+                            <td><span class="badge bg-danger">错误日志</span></td>
+                            <td><span class="badge bg-danger">错误</span></td>
+                            <td>system</td>
+                            <td>127.0.0.1</td>
+                            <td>文件操作</td>
+                            <td>无法读取配置文件config.ini，文件不存在</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">下一页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">日志详情</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 150px;">日志ID</th>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>时间</th>
+                        <td>2023-10-04 15:30:22</td>
+                    </tr>
+                    <tr>
+                        <th>类型</th>
+                        <td>登录日志</td>
+                    </tr>
+                    <tr>
+                        <th>级别</th>
+                        <td>信息</td>
+                    </tr>
+                    <tr>
+                        <th>用户</th>
+                        <td>admin</td>
+                    </tr>
+                    <tr>
+                        <th>IP地址</th>
+                        <td>192.168.1.100</td>
+                    </tr>
+                    <tr>
+                        <th>操作</th>
+                        <td>用户登录</td>
+                    </tr>
+                    <tr>
+                        <th>详情</th>
+                        <td>用户admin成功登录系统</td>
+                    </tr>
+                    <tr>
+                        <th>用户代理</th>
+                        <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36</td>
+                    </tr>
+                    <tr>
+                        <th>请求URL</th>
+                        <td>/auth/login</td>
+                    </tr>
+                    <tr>
+                        <th>请求方法</th>
+                        <td>POST</td>
+                    </tr>
+                    <tr>
+                        <th>响应状态码</th>
+                        <td>200</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('system.index') }}" class="btn btn-secondary">返回系统设置</a>
+        <div>
+            <button class="btn btn-warning">日志设置</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

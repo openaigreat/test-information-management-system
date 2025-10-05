@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">客户详情</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">ID:</div>
+                <div class="col-md-9">{{ customer.id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">客户名称:</div>
+                <div class="col-md-9">{{ customer.name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">联系人:</div>
+                <div class="col-md-9">{{ customer.contact_person }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">邮箱:</div>
+                <div class="col-md-9">{{ customer.email }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">电话:</div>
+                <div class="col-md-9">{{ customer.phone }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">地址:</div>
+                <div class="col-md-9">{{ customer.address }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">备注:</div>
+                <div class="col-md-9">{{ customer.description }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">创建时间:</div>
+                <div class="col-md-9">{{ customer.created_at.strftime('%Y-%m-%d %H:%M:%S') if customer.created_at else '未知' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">更新时间:</div>
+                <div class="col-md-9">{{ customer.updated_at.strftime('%Y-%m-%d %H:%M:%S') if customer.updated_at else '未知' }}</div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('customers.index') }}" class="btn btn-secondary">返回列表</a>
+                <a href="{{ url_for('customers.edit', customer_id=customer.id) }}" class="btn btn-primary">编辑</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

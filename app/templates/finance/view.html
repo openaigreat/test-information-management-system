@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">资金记录详情</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">ID:</div>
+                <div class="col-md-9">{{ record.id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">标题:</div>
+                <div class="col-md-9">{{ record.title }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">类型:</div>
+                <div class="col-md-9">
+                    {% if record.record_type == 'income' %}
+                        <span class="badge bg-success">收入</span>
+                    {% else %}
+                        <span class="badge bg-danger">支出</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">分类:</div>
+                <div class="col-md-9">{{ record.category }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">金额:</div>
+                <div class="col-md-9 {% if record.record_type == 'income' %}text-success{% else %}text-danger{% endif %}">
+                    {% if record.record_type == 'income' %}+{% else %}-{% endif %}¥{{ "%.2f"|format(record.amount) }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">日期:</div>
+                <div class="col-md-9">{{ record.date.strftime('%Y-%m-%d') }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">备注:</div>
+                <div class="col-md-9">{{ record.description or '无' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">创建时间:</div>
+                <div class="col-md-9">{{ record.created_at.strftime('%Y-%m-%d %H:%M:%S') if record.created_at else '未知' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">更新时间:</div>
+                <div class="col-md-9">{{ record.updated_at.strftime('%Y-%m-%d %H:%M:%S') if record.updated_at else '未知' }}</div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('finance.index') }}" class="btn btn-secondary">返回列表</a>
+                <a href="{{ url_for('finance.edit', record_id=record.id) }}" class="btn btn-primary">编辑</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

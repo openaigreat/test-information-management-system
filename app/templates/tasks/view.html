@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">任务详情</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">{{ task.title }}</h2>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>状态：</strong>
+                        {% if task.status == 'todo' %}
+                            <span class="badge bg-secondary">待办</span>
+                        {% elif task.status == 'in_progress' %}
+                            <span class="badge bg-primary">进行中</span>
+                        {% elif task.status == 'completed' %}
+                            <span class="badge bg-success">已完成</span>
+                        {% elif task.status == 'overdue' %}
+                            <span class="badge bg-danger">已逾期</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>优先级：</strong>
+                        {% if task.priority == 'low' %}
+                            <span class="badge bg-info">低</span>
+                        {% elif task.priority == 'medium' %}
+                            <span class="badge bg-secondary">中</span>
+                        {% elif task.priority == 'high' %}
+                            <span class="badge bg-warning">高</span>
+                        {% elif task.priority == 'urgent' %}
+                            <span class="badge bg-danger">紧急</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>负责人：</strong> {{ task.assignee_name or '-' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>所属项目：</strong> {{ task.project_name or '-' }}</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>创建时间：</strong> {{ task.created_at or '-' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>截止日期：</strong> {{ task.due_date or '-' }}</p>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <p><strong>任务描述：</strong></p>
+                <div class="card">
+                    <div class="card-body">
+                        {{ task.description | safe or '<p class="text-muted">暂无描述</p>' }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('tasks.index') }}" class="btn btn-secondary">返回任务列表</a>
+                <div>
+                    <a href="{{ url_for('tasks.edit', task_id=task.id) }}" class="btn btn-warning">编辑任务</a>
+                    <form method="post" action="{{ url_for('tasks.delete', task_id=task.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('确定要删除此任务吗？')">删除任务</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

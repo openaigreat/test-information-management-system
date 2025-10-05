@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">{{ article.title }}</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    {% if article.category_name %}
+                    <span class="badge bg-info">{{ article.category_name }}</span>
+                    {% endif %}
+                    {% if article.is_public == 'public' %}
+                    <span class="badge bg-success">公开</span>
+                    {% else %}
+                    <span class="badge bg-secondary">私有</span>
+                    {% endif %}
+                    {% if article.tags %}
+                    {% for tag in article.tags.split(',') %}
+                    <span class="badge bg-secondary">{{ tag.strip() }}</span>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="text-muted">
+                    <small>创建时间: {{ article.created_at }}</small>
+                    {% if article.updated_at != article.created_at %}
+                    <small> | 更新时间: {{ article.updated_at }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="article-content">
+                {{ article.content|safe }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between">
+        <a href="{{ url_for('knowledge.index') }}" class="btn btn-secondary">返回知识库</a>
+        <div>
+            <a href="{{ url_for('knowledge.edit_article', article_id=article.id) }}" class="btn btn-warning">编辑</a>
+            <form method="post" action="{{ url_for('knowledge.delete_article', article_id=article.id) }}" class="d-inline">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('确定要删除此文章吗？')">删除</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

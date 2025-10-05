@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">薪资统计报表</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">薪资统计概览</h4>
+            
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">总人数</h5>
+                            <h2 class="card-text">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">本月薪资总额</h5>
+                            <h2 class="card-text">¥0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">平均薪资</h5>
+                            <h2 class="card-text">¥0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">最高薪资</h5>
+                            <h2 class="card-text">¥0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">部门薪资对比</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">薪资分布</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">部门薪资明细</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>部门名称</th>
+                                    <th>人数</th>
+                                    <th>基本工资总额</th>
+                                    <th>绩效工资总额</th>
+                                    <th>奖金总额</th>
+                                    <th>扣款总额</th>
+                                    <th>实发工资总额</th>
+                                    <th>平均薪资</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>技术部</td>
+                                    <td>0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>市场部</td>
+                                    <td>0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>财务部</td>
+                                    <td>0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">薪资结构分析</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-center py-4">
+                                <p class="text-muted">饼图将在这里显示</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>薪资项目</th>
+                                            <th>金额</th>
+                                            <th>占比</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>基本工资</td>
+                                            <td>¥0</td>
+                                            <td>0%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>绩效工资</td>
+                                            <td>¥0</td>
+                                            <td>0%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>奖金</td>
+                                            <td>¥0</td>
+                                            <td>0%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>扣款</td>
+                                            <td>¥0</td>
+                                            <td>0%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('reports.index') }}" class="btn btn-secondary">返回报表中心</a>
+                <div>
+                    <button class="btn btn-success">导出Excel</button>
+                    <button class="btn btn-danger">导出PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

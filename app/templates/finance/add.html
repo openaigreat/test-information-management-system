@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">添加资金记录</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="title" class="form-label">标题</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="record_type" class="form-label">类型</label>
+                    <select class="form-select" id="record_type" name="record_type" required onchange="updateCategories()">
+                        <option value="">请选择类型</option>
+                        <option value="income">收入</option>
+                        <option value="expense">支出</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">分类</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="">请先选择类型</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">金额</label>
+                    <div class="input-group">
+                        <span class="input-group-text">¥</span>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0.01" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">日期</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">备注</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('finance.index') }}" class="btn btn-secondary">返回</a>
+                    <button type="submit" class="btn btn-primary">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateCategories() {
+    const recordType = document.getElementById('record_type').value;
+    const categorySelect = document.getElementById('category');
+    
+    // 清空现有选项
+    categorySelect.innerHTML = '<option value="">请选择分类</option>';
+    
+    if (recordType === 'income') {
+        const incomeCategories = [
+            { value: 'sales', text: '销售收入' },
+            { value: 'investment', text: '投资收益' },
+            { value: 'subsidy', text: '补贴收入' },
+            { value: 'other_income', text: '其他收入' }
+        ];
+        
+        incomeCategories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.value;
+            option.textContent = cat.text;
+            categorySelect.appendChild(option);
+        });
+    } else if (recordType === 'expense') {
+        const expenseCategories = [
+            { value: 'salary', text: '工资支出' },
+            { value: 'rent', text: '租金支出' },
+            { value: 'supplies', text: '物资采购' },
+            { value: 'marketing', text: '营销费用' },
+            { value: 'other_expense', text: '其他支出' }
+        ];
+        
+        expenseCategories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.value;
+            option.textContent = cat.text;
+            categorySelect.appendChild(option);
+        });
+    }
+}
+</script>
+{% endblock %}

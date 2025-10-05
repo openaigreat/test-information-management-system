@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">添加物品</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">物品名称</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">分类</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="">请选择分类</option>
+                        <option value="office">办公用品</option>
+                        <option value="equipment">设备器材</option>
+                        <option value="material">原材料</option>
+                        <option value="product">产品</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="unit" class="form-label">单位</label>
+                    <input type="text" class="form-control" id="unit" name="unit" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">单价</label>
+                    <div class="input-group">
+                        <span class="input-group-text">¥</span>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="supplier" class="form-label">供应商</label>
+                    <input type="text" class="form-control" id="supplier" name="supplier">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">描述</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">返回</a>
+                    <button type="submit" class="btn btn-primary">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

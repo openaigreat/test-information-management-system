@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">人员详情</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">ID:</div>
+                <div class="col-md-9">{{ user.id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">用户名:</div>
+                <div class="col-md-9">{{ user.username }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">姓名:</div>
+                <div class="col-md-9">{{ user.name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">邮箱:</div>
+                <div class="col-md-9">{{ user.email }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">角色:</div>
+                <div class="col-md-9">
+                    {% for role in user.roles %}
+                        <span class="badge bg-info">{{ role.name }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">无</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">注册时间:</div>
+                <div class="col-md-9">{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') if user.created_at else '未知' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">最后登录:</div>
+                <div class="col-md-9">{{ user.last_login.strftime('%Y-%m-%d %H:%M:%S') if user.last_login else '从未登录' }}</div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('personnel.index') }}" class="btn btn-secondary">返回列表</a>
+                <a href="{{ url_for('personnel.edit', user_id=user.id) }}" class="btn btn-primary">编辑</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

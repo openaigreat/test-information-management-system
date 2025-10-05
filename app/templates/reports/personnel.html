@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">人员统计报表</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">人员统计概览</h4>
+            
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">总人数</h5>
+                            <h2 class="card-text">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">部门数量</h5>
+                            <h2 class="card-text">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">职位数量</h5>
+                            <h2 class="card-text">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">本月新增</h5>
+                            <h2 class="card-text">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">部门人员分布</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">职位分布</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">人员入职趋势</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">性别比例</h5>
+                            <div class="text-center py-4">
+                                <p class="text-muted">图表将在这里显示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">部门人员明细</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>部门名称</th>
+                                    <th>人员数量</th>
+                                    <th>占比</th>
+                                    <th>平均薪资</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>技术部</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>¥0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>市场部</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>¥0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>财务部</td>
+                                    <td>0</td>
+                                    <td>0%</td>
+                                    <td>¥0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info">查看详情</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('reports.index') }}" class="btn btn-secondary">返回报表中心</a>
+                <div>
+                    <button class="btn btn-success">导出Excel</button>
+                    <button class="btn btn-danger">导出PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">编辑项目</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">项目名称</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ project.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">项目描述</label>
+                    <textarea class="form-control" id="description" name="description" rows="3">{{ project.description or '' }}</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="status" class="form-label">项目状态</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="planning" {% if project.status == 'planning' %}selected{% endif %}>规划中</option>
+                            <option value="in_progress" {% if project.status == 'in_progress' %}selected{% endif %}>进行中</option>
+                            <option value="completed" {% if project.status == 'completed' %}selected{% endif %}>已完成</option>
+                            <option value="on_hold" {% if project.status == 'on_hold' %}selected{% endif %}>已暂停</option>
+                            <option value="cancelled" {% if project.status == 'cancelled' %}selected{% endif %}>已取消</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="priority" class="form-label">优先级</label>
+                        <select class="form-select" id="priority" name="priority" required>
+                            <option value="low" {% if project.priority == 'low' %}selected{% endif %}>低</option>
+                            <option value="medium" {% if project.priority == 'medium' %}selected{% endif %}>中</option>
+                            <option value="high" {% if project.priority == 'high' %}selected{% endif %}>高</option>
+                            <option value="urgent" {% if project.priority == 'urgent' %}selected{% endif %}>紧急</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="start_date" class="form-label">开始日期</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ project.start_date }}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="end_date" class="form-label">结束日期</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ project.end_date or '' }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="budget" class="form-label">预算</label>
+                        <div class="input-group">
+                            <span class="input-group-text">¥</span>
+                            <input type="number" class="form-control" id="budget" name="budget" min="0" step="0.01" value="{{ project.budget or 0 }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="manager_id" class="form-label">项目经理</label>
+                        <select class="form-select" id="manager_id" name="manager_id" required>
+                            <option value="0">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('projects.index') }}" class="btn btn-secondary">返回</a>
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">物品详情</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">ID:</div>
+                <div class="col-md-9">{{ item.id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">物品名称:</div>
+                <div class="col-md-9">{{ item.name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">分类:</div>
+                <div class="col-md-9">{{ item.category }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">单位:</div>
+                <div class="col-md-9">{{ item.unit }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">单价:</div>
+                <div class="col-md-9">¥{{ "%.2f"|format(item.price) }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">供应商:</div>
+                <div class="col-md-9">{{ item.supplier or '无' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">库存数量:</div>
+                <div class="col-md-9">{{ item.stock_quantity or 0 }} {{ item.unit }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">库存总值:</div>
+                <div class="col-md-9">¥{{ "%.2f"|format(item.price * (item.stock_quantity or 0)) }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">描述:</div>
+                <div class="col-md-9">{{ item.description or '无' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">创建时间:</div>
+                <div class="col-md-9">{{ item.created_at.strftime('%Y-%m-%d %H:%M:%S') if item.created_at else '未知' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 font-weight-bold">更新时间:</div>
+                <div class="col-md-9">{{ item.updated_at.strftime('%Y-%m-%d %H:%M:%S') if item.updated_at else '未知' }}</div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('inventory.index') }}" class="btn btn-secondary">返回列表</a>
+                <a href="{{ url_for('inventory.edit', item_id=item.id) }}" class="btn btn-primary">编辑</a>
+                <a href="{{ url_for('inventory.stock_in', item_id=item.id) }}" class="btn btn-success">入库</a>
+                <a href="{{ url_for('inventory.stock_out', item_id=item.id) }}" class="btn btn-warning">出库</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

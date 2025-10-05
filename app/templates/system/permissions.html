@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">权限管理</h1>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>权限列表</h4>
+        <a href="#" class="btn btn-primary">添加权限</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>权限名称</th>
+                            <th>权限标识</th>
+                            <th>权限描述</th>
+                            <th>所属模块</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>查看用户</td>
+                            <td>user:view</td>
+                            <td>查看用户列表和详情</td>
+                            <td>用户管理</td>
+                            <td>2023-01-01</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">查看</button>
+                                <button class="btn btn-sm btn-warning">编辑</button>
+                                <button class="btn btn-sm btn-danger">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>添加用户</td>
+                            <td>user:add</td>
+                            <td>添加新用户</td>
+                            <td>用户管理</td>
+                            <td>2023-01-01</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">查看</button>
+                                <button class="btn btn-sm btn-warning">编辑</button>
+                                <button class="btn btn-sm btn-danger">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>编辑用户</td>
+                            <td>user:edit</td>
+                            <td>编辑用户信息</td>
+                            <td>用户管理</td>
+                            <td>2023-01-01</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">查看</button>
+                                <button class="btn btn-sm btn-warning">编辑</button>
+                                <button class="btn btn-sm btn-danger">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>删除用户</td>
+                            <td>user:delete</td>
+                            <td>删除用户</td>
+                            <td>用户管理</td>
+                            <td>2023-01-01</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">查看</button>
+                                <button class="btn btn-sm btn-warning">编辑</button>
+                                <button class="btn btn-sm btn-danger">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>查看角色</td>
+                            <td>role:view</td>
+                            <td>查看角色列表和详情</td>
+                            <td>角色管理</td>
+                            <td>2023-01-02</td>
+                            <td>
+                                <button class="btn btn-sm btn-info">查看</button>
+                                <button class="btn btn-sm btn-warning">编辑</button>
+                                <button class="btn btn-sm btn-danger">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">权限树形结构</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="list-group">
+                        <div class="list-group-item list-group-item-action active">
+                            <i class="bi bi-folder-fill me-2"></i> 用户管理
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 查看用户 (user:view)
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 添加用户 (user:add)
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 编辑用户 (user:edit)
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 删除用户 (user:delete)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="list-group">
+                        <div class="list-group-item list-group-item-action active">
+                            <i class="bi bi-folder-fill me-2"></i> 角色管理
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 查看角色 (role:view)
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 添加角色 (role:add)
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 编辑角色 (role:edit)
+                        </div>
+                        <div class="list-group-item ps-4">
+                            <i class="bi bi-file-earmark-text me-2"></i> 删除角色 (role:delete)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('system.index') }}" class="btn btn-secondary">返回系统设置</a>
+        <div>
+            <button class="btn btn-success">导出权限列表</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
