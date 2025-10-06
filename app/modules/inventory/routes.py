@@ -37,8 +37,14 @@ def index():
     categories = db.session.query(Item.category).distinct().all()
     statuses = db.session.query(Item.status).distinct().all()
     
+    # 计算统计信息
+    total_items = Item.query.count()
+    total_stock = db.session.query(db.func.sum(Stock.quantity)).scalar() or 0
+    total_value = db.session.query(db.func.sum(Item.price * Stock.quantity)).join(Stock, Item.id == Stock.item_id).scalar() or 0
+    
     return render_template('inventory/index.html', title='物品管理', 
-                         items=items, categories=categories, statuses=statuses)
+                         items=items, categories=categories, statuses=statuses,
+                         total_items=total_items, total_stock=total_stock, total_value=total_value)
 
 @bp.route('/add', methods=['GET', 'POST'])
 @login_required

@@ -9,7 +9,7 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">总分类数</h5>
-                    <h2 class="card-text">{{ categories|length }}</h2>
+                    <h2 class="card-text">{{ total_categories }}</h2>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">总文章数</h5>
-                    <h2 class="card-text">{{ articles|length }}</h2>
+                    <h2 class="card-text">{{ articles.total }}</h2>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="card bg-info text-white">
                 <div class="card-body">
                     <h5 class="card-title">公开文章</h5>
-                    <h2 class="card-text">0</h2>
+                    <h2 class="card-text">{{ public_articles }}</h2>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">私有文章</h5>
-                    <h2 class="card-text">0</h2>
+                    <h2 class="card-text">{{ private_articles }}</h2>
                 </div>
             </div>
         </div>

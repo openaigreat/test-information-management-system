@@ -9,7 +9,7 @@ class Project(db.Model):
     project_code = db.Column(db.String(64), unique=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
-    project_type = db.Column(db.String(32), nullable=False)  # 项目类型
+    project_type = db.Column(db.String(32), nullable=False, default='default')  # 项目类型，添加默认值避免NOT NULL约束错误
     status = db.Column(db.String(20), default='planning')  # planning, active, on_hold, completed, cancelled
     priority = db.Column(db.String(20), default='medium')  # low, medium, high, urgent
     start_date = db.Column(db.Date)
@@ -20,7 +20,7 @@ class Project(db.Model):
     actual_cost = db.Column(db.Float)
     progress = db.Column(db.Integer, default=0)  # 进度百分比
     manager_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    client_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    client_id = db.Column(db.Integer)  # No longer a foreign key since customer table was removed
     notes = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -28,12 +28,7 @@ class Project(db.Model):
     
     # 关系
     tasks = db.relationship('Task', backref='project', lazy='dynamic')
-    members = db.relationship('ProjectMember', backref='project', lazy='dynamic')
-    documents = db.relationship('ProjectDocument', backref='project', lazy='dynamic')
-    schedules = db.relationship('ProjectSchedule', backref='project', lazy='dynamic')
-    accounting_records = db.relationship('ProjectAccounting', backref='project', lazy='dynamic')
     manager = db.relationship('User', foreign_keys=[manager_id], backref='managed_projects')
-    client = db.relationship('Customer', backref='projects')
     creator = db.relationship('User', foreign_keys=[created_by], backref='created_projects')
     
     def __repr__(self):

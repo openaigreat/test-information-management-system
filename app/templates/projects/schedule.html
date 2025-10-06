@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">项目进度 - {{ project.name }}</h1>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>进度节点</h4>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addScheduleModal">
+            添加进度节点
+        </button>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if schedules %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>开始日期</th>
+                            <th>结束日期</th>
+                            <th>实际开始日期</th>
+                            <th>实际结束日期</th>
+                            <th>进度</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in schedules %}
+                        <tr>
+                            <td>{{ schedule.title }}</td>
+                            <td>{{ schedule.start_date }}</td>
+                            <td>{{ schedule.end_date }}</td>
+                            <td>{{ schedule.actual_start_date or '-' }}</td>
+                            <td>{{ schedule.actual_end_date or '-' }}</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ schedule.progress }}%;" aria-valuenow="{{ schedule.progress }}" aria-valuemin="0" aria-valuemax="100">{{ schedule.progress }}%</div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if schedule.status == 'planned' %}
+                                    <span class="badge bg-secondary">计划中</span>
+                                {% elif schedule.status == 'in_progress' %}
+                                    <span class="badge bg-primary">进行中</span>
+                                {% elif schedule.status == 'completed' %}
+                                    <span class="badge bg-success">已完成</span>
+                                {% elif schedule.status == 'delayed' %}
+                                    <span class="badge bg-danger">已延期</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-warning edit-schedule-btn" 
+                                        data-id="{{ schedule.id }}" 
+                                        data-title="{{ schedule.title }}" 
+                                        data-description="{{ schedule.description }}"
+                                        data-start-date="{{ schedule.start_date }}"
+                                        data-end-date="{{ schedule.end_date }}"
+                                        data-actual-start-date="{{ schedule.actual_start_date }}"
+                                        data-actual-end-date="{{ schedule.actual_end_date }}"
+                                        data-status="{{ schedule.status }}"
+                                        data-notes="{{ schedule.notes }}">
+                                    编辑
+                                </button>
+                                <form method="post" action="{{ url_for('projects.delete_schedule', schedule_id=schedule.id) }}" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除此进度节点吗？')">删除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">暂无进度节点数据</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ url_for('projects.view', project_id=project.id) }}" class="btn btn-secondary">返回项目详情</a>
+    </div>
+</div>
+
+<!-- 添加进度节点模态框 -->
+<div class="modal fade" id="addScheduleModal" tabindex="-1" aria-labelledby="addScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addScheduleModalLabel">添加进度节点</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{{ url_for('projects.add_schedule', project_id=project.id) }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">标题</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="start_date" class="form-label">开始日期</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="end_date" class="form-label">结束日期</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">状态</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="planned">计划中</option>
+                            <option value="in_progress">进行中</option>
+                            <option value="completed">已完成</option>
+                            <option value="delayed">已延期</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">备注</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑进度节点模态框 -->
+<div class="modal fade" id="editScheduleModal" tabindex="-1" aria-labelledby="editScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editScheduleModalLabel">编辑进度节点</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" id="editScheduleForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_name" class="form-label">标题</label>
+                        <input type="text" class="form-control" id="edit_name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_description" class="form-label">描述</label>
+                        <textarea class="form-control" id="edit_description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_start_date" class="form-label">开始日期</label>
+                            <input type="date" class="form-control" id="edit_start_date" name="start_date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_end_date" class="form-label">结束日期</label>
+                            <input type="date" class="form-control" id="edit_end_date" name="end_date" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_actual_start_date" class="form-label">实际开始日期</label>
+                            <input type="date" class="form-control" id="edit_actual_start_date" name="actual_start_date">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_actual_end_date" class="form-label">实际结束日期</label>
+                            <input type="date" class="form-control" id="edit_actual_end_date" name="actual_end_date">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_status" class="form-label">状态</label>
+                        <select class="form-select" id="edit_status" name="status" required>
+                            <option value="planned">计划中</option>
+                            <option value="in_progress">进行中</option>
+                            <option value="completed">已完成</option>
+                            <option value="delayed">已延期</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_notes" class="form-label">备注</label>
+                        <textarea class="form-control" id="edit_notes" name="notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">更新</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 编辑进度节点
+        const editButtons = document.querySelectorAll('.edit-schedule-btn');
+        const editForm = document.getElementById('editScheduleForm');
+        
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const scheduleId = this.getAttribute('data-id');
+                const title = this.getAttribute('data-title');
+                const description = this.getAttribute('data-description');
+                const startDate = this.getAttribute('data-start-date');
+                const endDate = this.getAttribute('data-end-date');
+                const actualStartDate = this.getAttribute('data-actual-start-date');
+                const actualEndDate = this.getAttribute('data-actual-end-date');
+                const status = this.getAttribute('data-status');
+                const notes = this.getAttribute('data-notes');
+                
+                document.getElementById('edit_name').value = title;
+                document.getElementById('edit_description').value = description;
+                document.getElementById('edit_start_date').value = startDate;
+                document.getElementById('edit_end_date').value = endDate;
+                document.getElementById('edit_actual_start_date').value = actualStartDate;
+                document.getElementById('edit_actual_end_date').value = actualEndDate;
+                document.getElementById('edit_status').value = status;
+                document.getElementById('edit_notes').value = notes;
+                
+                editForm.action = `/projects/schedule/edit/${scheduleId}`;
+                
+                const modal = new bootstrap.Modal(document.getElementById('editScheduleModal'));
+                modal.show();
+            });
+        });
+    });
+</script>
+{% endblock %}

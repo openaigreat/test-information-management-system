@@ -48,10 +48,31 @@
             
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <p><strong>创建时间：</strong> {{ task.created_at or '-' }}</p>
+                    <p><strong>开始日期：</strong> {{ task.start_date or '-' }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>截止日期：</strong> {{ task.due_date or '-' }}</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>预计工时：</strong> {{ task.estimated_hours or '-' }} 小时</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>实际工时：</strong> {{ task.actual_hours or '-' }} 小时</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>进度：</strong> {{ task.progress or 0 }}%</p>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ task.progress or 0 }}%;" aria-valuenow="{{ task.progress or 0 }}" aria-valuemin="0" aria-valuemax="100">{{ task.progress or 0 }}%</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>创建时间：</strong> {{ task.created_at or '-' }}</p>
                 </div>
             </div>
             
@@ -60,6 +81,15 @@
                 <div class="card">
                     <div class="card-body">
                         {{ task.description | safe or '<p class="text-muted">暂无描述</p>' }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <p><strong>备注：</strong></p>
+                <div class="card">
+                    <div class="card-body">
+                        {{ task.notes | safe or '<p class="text-muted">暂无备注</p>' }}
                     </div>
                 </div>
             </div>

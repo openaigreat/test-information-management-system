@@ -4,105 +4,58 @@
 <div class="row">
     <div class="col-md-12">
         <h1>欢迎来到信息管理系统</h1>
-        <p class="lead">这是一个综合性的信息管理平台，提供人员管理、客户管理、资金管理、物品管理、项目管理、任务管理和知识库等功能。</p>
+        <p class="lead">这是一个综合性的信息管理平台，目前提供基本的用户认证功能。</p>
     </div>
 </div>
 
 <div class="row mt-4">
-    <div class="col-md-3">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">人员管理</h5>
+                <h5 class="card-title mb-0">系统功能</h5>
             </div>
             <div class="card-body">
-                <p class="card-text">管理员工基本信息、在岗状态和操作日志。</p>
-                <a href="{{ url_for('personnel.index') }}" class="btn btn-primary">进入</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-success text-white">
-                <h5 class="card-title mb-0">客户管理</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">管理客户信息、联系人、业务往来和沟通过程。</p>
-                <a href="{{ url_for('customers.index') }}" class="btn btn-success">进入</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-info text-white">
-                <h5 class="card-title mb-0">资金管理</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">管理多个账户的资金流动和交易记录。</p>
-                <a href="{{ url_for('finance.accounts') }}" class="btn btn-info">进入</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-warning text-dark">
-                <h5 class="card-title mb-0">物品管理</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">管理物品采购、领用和库存情况。</p>
-                <a href="{{ url_for('inventory.index') }}" class="btn btn-warning">进入</a>
+                <p class="card-text">目前系统已实现以下功能：</p>
+                <ul>
+                    <li>用户注册和登录</li>
+                    <li>角色和权限管理</li>
+                    <li>安全的密码存储</li>
+                </ul>
+                <p class="card-text">更多功能正在开发中...</p>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row mt-4">
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="card">
-            <div class="card-header bg-danger text-white">
-                <h5 class="card-title mb-0">项目管理</h5>
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">用户管理</h5>
             </div>
             <div class="card-body">
-                <p class="card-text">管理项目文档、进度节点、核算和过程记录。</p>
-                <a href="{{ url_for('projects.index') }}" class="btn btn-danger">进入</a>
+                <p class="card-text">管理系统用户和权限。</p>
+                {% if current_user.has_permission('manage_users') %}
+                <a href="#" class="btn btn-success">用户管理</a>
+                {% else %}
+                <button class="btn btn-secondary" disabled>需要权限</button>
+                {% endif %}
             </div>
         </div>
     </div>
     
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <h5 class="card-title mb-0">任务管理</h5>
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">角色管理</h5>
             </div>
             <div class="card-body">
-                <p class="card-text">管理任务和工单的创建、分配和跟踪。</p>
-                <a href="{{ url_for('tasks.index') }}" class="btn btn-secondary">进入</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-dark text-white">
-                <h5 class="card-title mb-0">知识库</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">管理网盘、设备手册、操作指导和说明书。</p>
-                <a href="{{ url_for('reports.knowledge') }}" class="btn btn-dark">进入</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-light text-dark">
-                <h5 class="card-title mb-0">系统设置</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">管理系统配置和用户权限。</p>
-                <a href="#" class="btn btn-light">进入</a>
+                <p class="card-text">管理系统角色和权限分配。</p>
+                {% if current_user.has_permission('manage_roles') %}
+                <a href="#" class="btn btn-info">角色管理</a>
+                {% else %}
+                <button class="btn btn-secondary" disabled>需要权限</button>
+                {% endif %}
             </div>
         </div>
     </div>

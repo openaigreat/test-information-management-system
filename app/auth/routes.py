@@ -42,7 +42,7 @@ def register():
         user.set_password(form.password.data)
         
         # 分配默认角色
-        default_role = Role.query.filter_by(name='user').first()
+        default_role = Role.query.filter_by(name='普通用户').first()
         if default_role:
             user.roles.append(default_role)
         

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField, DateField, DecimalField, SubmitField
 from wtforms.validators import DataRequired, Optional, NumberRange
+from app.models import User
 
 class ProjectForm(FlaskForm):
     """项目表单"""
@@ -23,9 +24,11 @@ class ProjectForm(FlaskForm):
     end_date = DateField('结束日期', validators=[Optional()])
     budget = DecimalField('预算', validators=[Optional(), NumberRange(min=0)])
     manager_id = SelectField('项目经理', coerce=int, validators=[DataRequired()])
+    code = StringField('项目代码', validators=[Optional()])
     submit = SubmitField('提交')
     
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
-        # 这里应该从数据库获取用户列表作为项目经理选项
-        self.manager_id.choices = [(0, '请选择')]  # 临时空选项
+        # 从数据库获取用户列表作为项目经理选项
+        users = User.query.all()
+        self.manager_id.choices = [(user.id, user.username) for user in users]

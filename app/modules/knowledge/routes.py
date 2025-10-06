@@ -31,8 +31,16 @@ def index():
     # 获取所有分类
     categories = KnowledgeCategory.query.all()
     
+    # 计算总分类数
+    total_categories = len(categories)
+    
+    # 计算公开文章和私有文章数量
+    public_articles = KnowledgeArticle.query.filter_by(is_public='public').count()
+    private_articles = KnowledgeArticle.query.filter_by(is_public='private').count()
+    
     return render_template('knowledge/index.html', title='知识库', 
-                         categories=categories, articles=articles)
+                         categories=categories, articles=articles,
+                         total_categories=total_categories, public_articles=public_articles, private_articles=private_articles)
 
 @bp.route('/files')
 @login_required

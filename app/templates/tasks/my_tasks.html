@@ -9,7 +9,7 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">我的任务</h5>
-                    <h2 class="card-text">{{ tasks|length }}</h2>
+                    <h2 class="card-text">{{ tasks.total }}</h2>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
             <div class="card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">进行中</h5>
-                    <h2 class="card-text">0</h2>
+                    <h2 class="card-text">{{ in_progress_count }}</h2>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">已完成</h5>
-                    <h2 class="card-text">0</h2>
+                    <h2 class="card-text">{{ completed_count }}</h2>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="card bg-danger text-white">
                 <div class="card-body">
                     <h5 class="card-title">已逾期</h5>
-                    <h2 class="card-text">0</h2>
+                    <h2 class="card-text">{{ overdue_count }}</h2>
                 </div>
             </div>
         </div>

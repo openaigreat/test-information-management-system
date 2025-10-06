@@ -1,7 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
 from app.modules.projects import bp
-from app.models import Project, Task, TaskComment, TaskAttachment, ProjectMember, ProjectDocument, ProjectSchedule, ProjectAccounting
+from app.modules.projects.forms import ProjectForm
+from app.models import Project, Task, TaskComment, TaskAttachment, User
 from app import db
 from datetime import datetime
 
@@ -37,94 +38,87 @@ def index():
     statuses = db.session.query(Project.status).distinct().all()
     managers = db.session.query(User).join(Project, User.id == Project.manager_id).distinct().all()
     
+    # 计算项目状态统计
+    all_projects = Project.query.all()
+    in_progress_count = sum(1 for p in all_projects if p.status == 'in_progress')
+    completed_count = sum(1 for p in all_projects if p.status == 'completed')
+    on_hold_count = sum(1 for p in all_projects if p.status == 'on_hold')
+    
     return render_template('projects/index.html', title='项目管理', 
-                         projects=projects, statuses=statuses, managers=managers)
+                         projects=projects, statuses=statuses, managers=managers,
+                         in_progress_count=in_progress_count, completed_count=completed_count,
+                         on_hold_count=on_hold_count)
 
 @bp.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
     """添加项目"""
-    if request.method == 'POST':
-        name = request.form.get('name')
-        code = request.form.get('code')
-        description = request.form.get('description')
-        start_date = request.form.get('start_date')
-        end_date = request.form.get('end_date')
-        budget = float(request.form.get('budget', 0))
-        manager_id = request.form.get('manager_id')
-        status = request.form.get('status')
-        priority = request.form.get('priority')
-        notes = request.form.get('notes')
-        
+    form = ProjectForm()
+    if form.validate_on_submit():
         # 检查项目名称和代码是否已存在
-        if Project.query.filter_by(name=name).first():
+        if Project.query.filter_by(name=form.name.data).first():
             flash('项目名称已存在！', 'danger')
             return redirect(url_for('projects.add'))
         
-        if code and Project.query.filter_by(code=code).first():
+        if form.code.data and Project.query.filter_by(project_code=form.code.data).first():
             flash('项目代码已存在！', 'danger')
             return redirect(url_for('projects.add'))
         
         project = Project(
-            name=name,
-            code=code,
-            description=description,
-            start_date=datetime.strptime(start_date, '%Y-%m-%d').date(),
-            end_date=datetime.strptime(end_date, '%Y-%m-%d').date(),
-            budget=budget,
-            manager_id=manager_id,
-            status=status,
-            priority=priority,
-            notes=notes,
+            name=form.name.data,
+            project_code=form.code.data,
+            description=form.description.data,
+            start_date=form.start_date.data,
+            end_date=form.end_date.data,
+            budget=form.budget.data,
+            manager_id=form.manager_id.data,
+            status=form.status.data,
+            priority=form.priority.data,
+            notes="",  # 表单中没有notes字段
             created_by=current_user.id
         )
         
         db.session.add(project)
         db.session.commit()
         
-        # 添加项目经理为项目成员
-        if manager_id:
-            member = ProjectMember(
-                project_id=project.id,
-                user_id=manager_id,
-                role='manager',
-                created_by=current_user.id
-            )
-            db.session.add(member)
-            db.session.commit()
-        
         flash('项目添加成功！')
         return redirect(url_for('projects.index'))
     
-    # 获取所有用户，用于选择项目经理
-    users = User.query.all()
-    return render_template('projects/add.html', title='添加项目', users=users)
+    return render_template('projects/add.html', title='添加项目', form=form)
 
 @bp.route('/edit/<int:project_id>', methods=['GET', 'POST'])
 @login_required
 def edit(project_id):
     """编辑项目"""
     project = Project.query.get_or_404(project_id)
+    form = ProjectForm(obj=project)
     
-    if request.method == 'POST':
-        project.name = request.form.get('name')
-        project.code = request.form.get('code')
-        project.description = request.form.get('description')
-        project.start_date = datetime.strptime(request.form.get('start_date'), '%Y-%m-%d').date()
-        project.end_date = datetime.strptime(request.form.get('end_date'), '%Y-%m-%d').date()
-        project.budget = float(request.form.get('budget', 0))
-        project.manager_id = request.form.get('manager_id')
-        project.status = request.form.get('status')
-        project.priority = request.form.get('priority')
-        project.progress = int(request.form.get('progress', 0))
-        project.notes = request.form.get('notes')
+    if form.validate_on_submit():
+        # 检查项目名称和代码是否已存在（排除当前项目）
+        if Project.query.filter(Project.id != project_id, Project.name == form.name.data).first():
+            flash('项目名称已存在！', 'danger')
+            return redirect(url_for('projects.edit', project_id=project_id))
+        
+        if form.code.data and Project.query.filter(Project.id != project_id, Project.code == form.code.data).first():
+            flash('项目代码已存在！', 'danger')
+            return redirect(url_for('projects.edit', project_id=project_id))
+        
+        project.name = form.name.data
+        project.code = form.code.data
+        project.description = form.description.data
+        project.start_date = form.start_date.data
+        project.end_date = form.end_date.data
+        project.budget = form.budget.data
+        project.manager_id = form.manager_id.data
+        project.status = form.status.data
+        project.priority = form.priority.data
+        project.progress = 0  # 表单中没有progress字段
         
         db.session.commit()
         flash('项目信息更新成功！')
         return redirect(url_for('projects.index'))
     
-    users = User.query.all()
-    return render_template('projects/edit.html', title='编辑项目', project=project, users=users)
+    return render_template('projects/edit.html', title='编辑项目', form=form, project=project)
 
 @bp.route('/delete/<int:project_id>', methods=['POST'])
 @login_required
@@ -154,21 +148,17 @@ def view(project_id):
     """查看项目详情"""
     project = Project.query.get_or_404(project_id)
     
-    # 获取项目成员
-    members = db.session.query(ProjectMember, User).join(
-        User, ProjectMember.user_id == User.id
-    ).filter(ProjectMember.project_id == project_id).all()
-    
     # 获取项目任务统计
     total_tasks = Task.query.filter_by(project_id=project_id).count()
     completed_tasks = Task.query.filter_by(
         project_id=project_id, status='completed'
     ).count()
     
-    # 获取最近的进度节点
-    recent_schedules = ProjectSchedule.query.filter_by(
-        project_id=project_id
-    ).order_by(ProjectSchedule.scheduled_date.desc()).limit(5).all()
+    # 由于ProjectMember模型已移除，不再查询项目成员
+    members = []
+    
+    # 由于ProjectSchedule模型已移除，不再查询进度节点
+    recent_schedules = []
     
     return render_template('projects/view.html', title='项目详情', project=project,
                          members=members, total_tasks=total_tasks, 
@@ -201,8 +191,16 @@ def tasks(project_id):
         Task.project_id == project_id
     ).distinct().all()
     
+    # 计算任务状态统计
+    all_tasks = Task.query.filter_by(project_id=project_id).all()
+    in_progress_count = sum(1 for t in all_tasks if t.status == 'in_progress')
+    completed_count = sum(1 for t in all_tasks if t.status == 'completed')
+    overdue_count = sum(1 for t in all_tasks if t.status == 'overdue')
+    
     return render_template('projects/tasks.html', title='项目任务', project=project,
-                         tasks=tasks, statuses=statuses, assignees=assignees)
+                         tasks=tasks, statuses=statuses, assignees=assignees,
+                         in_progress_count=in_progress_count, completed_count=completed_count,
+                         overdue_count=overdue_count)
 
 @bp.route('/tasks/add/<int:project_id>', methods=['GET', 'POST'])
 @login_required
@@ -338,8 +336,16 @@ def members(project_id):
     member_ids = [m[1].id for m in members]
     non_members = User.query.filter(~User.id.in_(member_ids)).all()
     
+    # 计算成员角色统计
+    total_members = len(members)
+    manager_count = sum(1 for m in members if m[0].role == 'manager')
+    developer_count = sum(1 for m in members if m[0].role == 'developer')
+    tester_count = sum(1 for m in members if m[0].role == 'tester')
+    
     return render_template('projects/members.html', title='项目成员', project=project,
-                         members=members, non_members=non_members)
+                         members=members, non_members=non_members,
+                         total_members=total_members, manager_count=manager_count, 
+                         developer_count=developer_count, tester_count=tester_count)
 
 @bp.route('/members/add/<int:project_id>', methods=['POST'])
 @login_required
@@ -462,7 +468,7 @@ def schedule(project_id):
     # 获取项目进度节点
     schedules = ProjectSchedule.query.filter_by(
         project_id=project_id
-    ).order_by(ProjectSchedule.scheduled_date.asc()).all()
+    ).order_by(ProjectSchedule.start_date.asc()).all()
     
     return render_template('projects/schedule.html', title='项目进度', project=project,
                          schedules=schedules)
@@ -475,15 +481,17 @@ def add_schedule(project_id):
     
     name = request.form.get('name')
     description = request.form.get('description')
-    scheduled_date = request.form.get('scheduled_date')
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
     status = request.form.get('status')
     notes = request.form.get('notes')
     
     schedule = ProjectSchedule(
         project_id=project_id,
-        name=name,
+        title=name,
         description=description,
-        scheduled_date=datetime.strptime(scheduled_date, '%Y-%m-%d').date(),
+        start_date=datetime.strptime(start_date, '%Y-%m-%d').date(),
+        end_date=datetime.strptime(end_date, '%Y-%m-%d').date(),
         status=status,
         notes=notes,
         created_by=current_user.id
@@ -500,11 +508,13 @@ def edit_schedule(schedule_id):
     """编辑项目进度节点"""
     schedule = ProjectSchedule.query.get_or_404(schedule_id)
     
-    schedule.name = request.form.get('name')
+    schedule.title = request.form.get('name')
     schedule.description = request.form.get('description')
-    schedule.scheduled_date = datetime.strptime(request.form.get('scheduled_date'), '%Y-%m-%d').date()
+    schedule.start_date = datetime.strptime(request.form.get('start_date'), '%Y-%m-%d').date()
+    schedule.end_date = datetime.strptime(request.form.get('end_date'), '%Y-%m-%d').date()
     schedule.status = request.form.get('status')
-    schedule.actual_date = datetime.strptime(request.form.get('actual_date'), '%Y-%m-%d').date() if request.form.get('actual_date') else None
+    schedule.actual_start_date = datetime.strptime(request.form.get('actual_start_date'), '%Y-%m-%d').date() if request.form.get('actual_start_date') else None
+    schedule.actual_end_date = datetime.strptime(request.form.get('actual_end_date'), '%Y-%m-%d').date() if request.form.get('actual_end_date') else None
     schedule.notes = request.form.get('notes')
     
     db.session.commit()
